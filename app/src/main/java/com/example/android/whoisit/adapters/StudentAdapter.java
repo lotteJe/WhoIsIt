@@ -38,11 +38,12 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
             trait2 = (TextView) view.findViewById(R.id.trait2);
             trait3 = (TextView) view.findViewById(R.id.trait3);
             studentImage = (ImageView) view.findViewById(R.id.studentImage);
+
+            // achtergrond met delete en vuilbak voor swipe actie naar links
             viewBackground = view.findViewById(R.id.view_background);
             viewForeground = view.findViewById(R.id.view_foreground);
         }
     }
-
 
     public StudentAdapter(Context context, List<Student> students) {
         this.context = context;
@@ -53,7 +54,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.student_item, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
@@ -73,15 +73,13 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
 
     public void removeItem(int position) {
         students.remove(position);
-        // notify the item removed by position
-        // to perform recycler view delete animations
-        // NOTE: don't call notifyDataSetChanged()
+        // laten weten dat een item werd verwijderd
         notifyItemRemoved(position);
     }
 
     public void restoreItem(Student item, int position) {
         students.add(position, item);
-        // notify item added by position
+// laten weten dat een item werd toegevoegd
         notifyItemInserted(position);
     }
 

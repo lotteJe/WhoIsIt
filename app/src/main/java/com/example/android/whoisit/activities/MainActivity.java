@@ -1,4 +1,4 @@
-package com.example.android.whoisit;
+package com.example.android.whoisit.activities;
 
 import android.content.res.Configuration;
 import android.os.Parcelable;
@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.android.whoisit.R;
 import com.example.android.whoisit.fragments.StudentdetailFragment;
 import com.example.android.whoisit.fragments.StudentsFragment;
 import com.example.android.whoisit.interfaces.StudentInterface;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
         currentFragment = studentsFragment;
 
         if (savedInstanceState != null) {
-            //  currentFragment = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_KEY);
             selectedStudent = (Student) savedInstanceState.getParcelable("selectedStudent");
             students = savedInstanceState.getParcelableArrayList("students");
         }
@@ -63,8 +63,6 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
 
     @Override
     public void showStudentdetailFragment() {
-        currentFragment = studentdetailFragment;
-
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, studentdetailFragment);
@@ -87,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        // getSupportFragmentManager().putFragment(outState, FRAGMENT_KEY, currentFragment);
         if (selectedStudent == null)
             outState.putParcelable("selectedStudent", students.get(0));
         else
@@ -127,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
         return students;
     }
 
+    //bij landscape detailfragment updaten bij wijzigen van student, of deleten
     public void updateDetailFragment() {
         studentdetailFragment.updateView();
     }

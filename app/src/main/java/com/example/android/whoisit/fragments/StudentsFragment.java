@@ -39,7 +39,6 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,13 +63,13 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
 
+        //bij klikt op student
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(rootView.getContext(), new OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         ((StudentInterface) getActivity()).setSelectedStudent(students.get(position));
                         ((StudentInterface) getActivity()).showStudentdetailFragment();
-
                     }
                 })
         );
