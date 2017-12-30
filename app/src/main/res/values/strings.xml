@@ -6,4 +6,9 @@
     <string name="action_settings">Settings</string>
     <string name="my_cart">My Cart</string>
     <string name="delete">DELETE</string>
+    <string name="voeg_toe_student">Voeg student toe</string>
+    <string name="title_activity_add_student">AddStudentActivity</string>
+    <string name="opslaan">Opslaan</string>
+    <string name="kenmerken">Kenmerken</string>
+    <string name="naam">Naam</string>
 </resources>

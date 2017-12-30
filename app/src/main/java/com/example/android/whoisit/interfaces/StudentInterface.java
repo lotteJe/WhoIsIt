@@ -19,7 +19,5 @@ public interface StudentInterface {
 
     void setSelectedStudent(Student selectedStudent);
 
-    ArrayList<Student> getStudents();
-
     void updateDetailFragment();
 }

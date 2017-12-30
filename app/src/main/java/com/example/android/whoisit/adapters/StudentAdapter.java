@@ -1,8 +1,11 @@
 package com.example.android.whoisit.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.whoisit.R;
+import com.example.android.whoisit.WhoIsItApplication;
 import com.example.android.whoisit.models.Student;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
+
+import io.objectbox.Box;
 
 /**
  * Created by lottejespers on 29/12/17.
@@ -48,6 +56,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     public StudentAdapter(Context context, List<Student> students) {
         this.context = context;
         this.students = students;
+
     }
 
     @Override
@@ -63,7 +72,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
         holder.trait1.setText(student.getTraits().get(0));
         holder.trait2.setText(student.getTraits().get(1));
         holder.trait3.setText(student.getTraits().get(2));
-        holder.studentImage.setImageResource(student.getImage());
+        Bitmap image = loadImageBitmap(context.getApplicationContext(), student.getImage());
+        holder.studentImage.setImageBitmap(image);
     }
 
     @Override
@@ -83,6 +93,22 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
         notifyItemInserted(position);
     }
 
+    public Bitmap loadImageBitmap(Context context, String imageName) {
+        Bitmap bitmap = null;
+        FileInputStream fiStream;
+        try {
+            String path = imageName.replaceAll(".png|.jpg", "");
+            File file            = context.getApplicationContext().getFileStreamPath(path);
+            if (file.exists()) Log.d("file", imageName);
+            fiStream = context.openFileInput(path);
+            bitmap = BitmapFactory.decodeStream(fiStream);
+            fiStream.close();
+        } catch (Exception e) {
+            Log.d("saveImage", "Exception 3, Something went wrong!");
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
 }
 
 

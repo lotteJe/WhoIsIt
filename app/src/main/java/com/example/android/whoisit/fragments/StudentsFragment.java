@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.whoisit.R;
+import com.example.android.whoisit.WhoIsItApplication;
 import com.example.android.whoisit.adapters.StudentAdapter;
 import com.example.android.whoisit.interfaces.OnItemClickListener;
 import com.example.android.whoisit.interfaces.StudentInterface;
@@ -23,6 +24,9 @@ import com.example.android.whoisit.utils.RecyclerItemClickListener;
 import com.example.android.whoisit.utils.RecyclerItemTouchHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import io.objectbox.Box;
 
 import static android.content.ContentValues.TAG;
 
@@ -32,11 +36,11 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
     private LinearLayoutManager mLayoutManager;
     private StudentAdapter mAdapter;
     private ArrayList<Student> students;
+    private Box<Student> studentBox;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -50,7 +54,10 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        students = ((StudentInterface) getActivity()).getStudents();
+        WhoIsItApplication app = (WhoIsItApplication) this.getContext().getApplicationContext();
+        studentBox = app.getBoxStore().boxFor(Student.class);
+
+        students = studentBox.getAll().isEmpty() ? new ArrayList<Student>() : (ArrayList<Student>) studentBox.getAll();
         mRecyclerView.addItemDecoration(new DividerItemDecoration(rootView.getContext(), LinearLayoutManager.VERTICAL));
 
         mAdapter = new StudentAdapter(rootView.getContext(), students);
@@ -90,6 +97,7 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
             // Student verwijderen uit recycleview, lijst in adapter aanpassen
             mAdapter.removeItem(viewHolder.getAdapterPosition());
+            studentBox.remove(deletedStudent);
 
             // update detailfragment, student dat gedelete is moet niet meer getoond worden
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -106,6 +114,7 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
                     //wanneer undo werd geklikt, wordt de student terug hersteld
                     mAdapter.restoreItem(deletedStudent, deletedStudentIndex);
+                    studentBox.put(deletedStudent);
                 }
             });
             snackbar.setActionTextColor(Color.YELLOW);
