@@ -1,7 +1,11 @@
 package com.example.android.whoisit.fragments;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,8 @@ import com.example.android.whoisit.R;
 import com.example.android.whoisit.interfaces.StudentInterface;
 import com.example.android.whoisit.models.Student;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
 
 
@@ -50,7 +56,8 @@ public class StudentdetailFragment extends Fragment {
     public void updateView() {
         student = ((StudentInterface) getActivity()).getSelectedStudent();
 
-        studentImage.setImageResource(student.getImage());
+        Bitmap image = loadImageBitmap(this.getContext().getApplicationContext(), student.getImage());
+        studentImage.setImageBitmap(image);
 
         naam.setText(student.getName());
 
@@ -61,6 +68,23 @@ public class StudentdetailFragment extends Fragment {
         trait1.setText(student.getTraits().get(0));
         trait2.setText(student.getTraits().get(1));
         trait3.setText(student.getTraits().get(2));
+    }
+
+    public Bitmap loadImageBitmap(Context context, String imageName) {
+        Bitmap bitmap = null;
+        FileInputStream fiStream;
+        try {
+            String path = imageName.replaceAll(".png|.jpg", "");
+            File file            = context.getApplicationContext().getFileStreamPath(path);
+            if (file.exists()) Log.d("file", imageName);
+            fiStream = context.openFileInput(path);
+            bitmap = BitmapFactory.decodeStream(fiStream);
+            fiStream.close();
+        } catch (Exception e) {
+            Log.d("saveImage", "Exception 3, Something went wrong!");
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }
 
