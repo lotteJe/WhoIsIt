@@ -36,7 +36,6 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -63,7 +62,7 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
 
-        //bij klikt op student
+        //bij click op student
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(rootView.getContext(), new OnItemClickListener() {
                     @Override
@@ -99,7 +98,7 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
             // snackbar met naam en optie voor undo tonen
             Snackbar snackbar = Snackbar
-                    .make(getActivity().findViewById(android.R.id.content), name + " removed from students!", Snackbar.LENGTH_LONG);
+                    .make(getActivity().findViewById(android.R.id.content), name + " werd verwijderd!", Snackbar.LENGTH_LONG);
             snackbar.setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -113,5 +112,8 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
         }
     }
 
+    public void updateList(ArrayList<Student> students) {
+        mAdapter.updateList(students);
+    }
 }
 

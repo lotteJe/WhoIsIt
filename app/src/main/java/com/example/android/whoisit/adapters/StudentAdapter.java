@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.android.whoisit.R;
 import com.example.android.whoisit.models.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,6 +84,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
         notifyItemInserted(position);
     }
 
+    public void updateList(ArrayList<Student> students) {
+        this.students = students;
+        notifyDataSetChanged();
+    }
 }
 
 

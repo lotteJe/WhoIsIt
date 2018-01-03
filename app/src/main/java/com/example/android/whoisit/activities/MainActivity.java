@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.android.whoisit.R;
 import com.example.android.whoisit.fragments.StudentdetailFragment;
@@ -22,8 +25,6 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
     private StudentsFragment studentsFragment;
     private StudentdetailFragment studentdetailFragment;
     private Student selectedStudent;
-    private final String FRAGMENT_KEY = "myFragment";
-    private Fragment currentFragment;
     private ArrayList<Student> students;
 
     @Override
@@ -35,8 +36,6 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
         studentdetailFragment = new StudentdetailFragment();
 
         initStudentDataset();
-
-        currentFragment = studentsFragment;
 
         if (savedInstanceState != null) {
             selectedStudent = (Student) savedInstanceState.getParcelable("selectedStudent");
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
     @Override
     public void showStudentsFragment() {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            currentFragment = studentsFragment;
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, studentsFragment);
             ft.addToBackStack(null);
@@ -129,4 +127,19 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
         studentdetailFragment.updateView();
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                initStudentDataset();
+                studentsFragment.updateList(this.students);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
