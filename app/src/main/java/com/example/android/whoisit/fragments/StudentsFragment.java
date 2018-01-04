@@ -113,6 +113,7 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
     }
 
     public void updateList(ArrayList<Student> students) {
+        this.students = students;
         mAdapter.updateList(students);
     }
 }
