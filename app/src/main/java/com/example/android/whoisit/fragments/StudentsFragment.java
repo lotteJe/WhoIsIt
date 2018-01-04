@@ -1,5 +1,6 @@
 package com.example.android.whoisit.fragments;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 
 import com.example.android.whoisit.R;
 import com.example.android.whoisit.WhoIsItApplication;
+import com.example.android.whoisit.activities.AddStudentActivity;
+import com.example.android.whoisit.activities.MainActivity;
 import com.example.android.whoisit.adapters.StudentAdapter;
 import com.example.android.whoisit.interfaces.OnItemClickListener;
 import com.example.android.whoisit.interfaces.StudentInterface;
@@ -72,11 +75,18 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
         //bij klikt op student
         mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(rootView.getContext(), new OnItemClickListener() {
+                new RecyclerItemClickListener(rootView.getContext(), mRecyclerView, new OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         ((StudentInterface) getActivity()).setSelectedStudent(students.get(position));
                         ((StudentInterface) getActivity()).showStudentdetailFragment();
+                    }
+
+                    @Override
+                    public void onLongClick(View view, int position) {
+                        Intent intent = new Intent(getActivity(), AddStudentActivity.class);
+                        intent.putExtra("studentId", students.get(position).getId());
+                        startActivity(intent);
                     }
                 })
         );
@@ -97,7 +107,7 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
             // Student verwijderen uit recycleview, lijst in adapter aanpassen
             mAdapter.removeItem(viewHolder.getAdapterPosition());
-            studentBox.remove(deletedStudent);
+            //studentBox.remove(deletedStudent);
 
             // update detailfragment, student dat gedelete is moet niet meer getoond worden
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -114,7 +124,7 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
                     //wanneer undo werd geklikt, wordt de student terug hersteld
                     mAdapter.restoreItem(deletedStudent, deletedStudentIndex);
-                    studentBox.put(deletedStudent);
+                    // studentBox.put(deletedStudent);
                 }
             });
             snackbar.setActionTextColor(Color.YELLOW);
@@ -122,5 +132,9 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
         }
     }
 
+    public void updateList() {
+        this.students = studentBox.getAll().isEmpty() ? new ArrayList<Student>() : (ArrayList<Student>) studentBox.getAll();
+        mAdapter.updateList(this.students);
+    }
 }
 

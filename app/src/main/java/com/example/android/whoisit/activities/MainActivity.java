@@ -147,6 +147,9 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
                 Intent intent = new Intent(MainActivity.this, AddStudentActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.action_refresh:
+                studentsFragment.updateList();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

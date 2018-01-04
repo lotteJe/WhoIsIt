@@ -3,11 +3,13 @@ package com.example.android.whoisit.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,8 @@ import com.example.android.whoisit.R;
 import com.example.android.whoisit.WhoIsItApplication;
 import com.example.android.whoisit.models.Student;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Arrays;
 
@@ -32,6 +36,11 @@ public class AddStudentActivity extends AppCompatActivity {
     private ImageView imageView;
     private Student student;
     private Bitmap imageBitmap;
+    private long studentId;
+    private EditText naamEt;
+    private EditText trait1Et;
+    private EditText trait2Et;
+    private EditText trait3Et;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,13 @@ public class AddStudentActivity extends AppCompatActivity {
         WhoIsItApplication app = (WhoIsItApplication) getApplication();
         studentbox = app.getBoxStore().boxFor(Student.class);
 
+        Intent intent = getIntent();
+        studentId = intent.getLongExtra("studentId", 0);
+
+        naamEt = (EditText) findViewById(R.id.studentName);
+        trait1Et = (EditText) findViewById(R.id.trait1);
+        trait2Et = (EditText) findViewById(R.id.trait2);
+        trait3Et = (EditText) findViewById(R.id.trait3);
         imageView = findViewById(R.id.studentImage);
 
         imageView.setImageResource(R.drawable.ic_camera);
@@ -51,6 +67,25 @@ public class AddStudentActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
+
+        if (studentId == 0) setTitle(getString(R.string.add_activity_new_student));
+        else {
+            setTitle(getString(R.string.add_activity_edit_student));
+            updateView();
+        }
+    }
+
+    private void updateView() {
+
+        student = studentbox.get(studentId);
+
+        naamEt.setText(student.getName());
+        trait1Et.setText(student.getTraits().get(0));
+        trait2Et.setText(student.getTraits().get(1));
+        trait3Et.setText(student.getTraits().get(2));
+
+        imageBitmap = loadImageBitmap(this, student.getImage());
+        imageView.setImageBitmap(imageBitmap);
     }
 
     @Override
@@ -72,11 +107,6 @@ public class AddStudentActivity extends AppCompatActivity {
     }
 
     private void saveStudent() {
-        EditText naamEt = (EditText) findViewById(R.id.studentName);
-        EditText trait1Et = (EditText) findViewById(R.id.trait1);
-        EditText trait2Et = (EditText) findViewById(R.id.trait2);
-        EditText trait3Et = (EditText) findViewById(R.id.trait3);
-
         String naam = naamEt.getText().toString().trim().toLowerCase();
         String trait1 = trait1Et.getText().toString().trim().toLowerCase();
         String trait2 = trait2Et.getText().toString().trim().toLowerCase();
@@ -86,12 +116,13 @@ public class AddStudentActivity extends AppCompatActivity {
             naamEt.setError("Naam verplicht");
             return;
         }
-        for (Student student : studentbox.getAll()) {
-            if (naam.equals(student.getName().trim().toLowerCase())) {
-                naamEt.setError("Deze student bestaat al");
-                return;
+        if (studentId == 0) {
+            for (Student student : studentbox.getAll()) {
+                if (naam.equals(student.getName().trim().toLowerCase())) {
+                    naamEt.setError("Deze student bestaat al");
+                    return;
+                }
             }
-
         }
         if (TextUtils.isEmpty(trait1)) {
             trait1Et.setError("Kenmerken verplicht");
@@ -112,10 +143,16 @@ public class AddStudentActivity extends AppCompatActivity {
             Toast.makeText(this.getBaseContext(), "Foto verplicht", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (studentId == 0) {
+            student = new Student(0, naam, naam, Arrays.asList(trait1, trait2, trait3));
+        } else {
+            student = studentbox.get(studentId);
+            student.setImage(naam);
+            student.setName(naam);
+            student.setTraits(Arrays.asList(trait1, trait2, trait3));
+        }
 
-        student = new Student(0, naam, naam, Arrays.asList(trait1, trait2, trait3));
         studentbox.put(student);
-
         Intent intent = new Intent(AddStudentActivity.this, MainActivity.class);
         startActivity(intent);
     }
@@ -134,6 +171,23 @@ public class AddStudentActivity extends AppCompatActivity {
             imageBitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(imageBitmap);
         }
+    }
+
+    public Bitmap loadImageBitmap(Context context, String imageName) {
+        Bitmap bitmap = null;
+        FileInputStream fiStream;
+        try {
+            String path = imageName.replaceAll(".png|.jpg", "");
+            File file = context.getApplicationContext().getFileStreamPath(path);
+            if (file.exists()) Log.d("file", imageName);
+            fiStream = context.openFileInput(path);
+            bitmap = BitmapFactory.decodeStream(fiStream);
+            fiStream.close();
+        } catch (Exception e) {
+            Log.d("saveImage", "Exception 3, Something went wrong!");
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     public class SaveFile extends AsyncTask<String, String, String> {
