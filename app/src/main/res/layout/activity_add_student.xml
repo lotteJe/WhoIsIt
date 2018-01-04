@@ -2,83 +2,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:orientation="horizontal"
-    android:weightSum="2">
+    android:orientation="vertical"
+    android:weightSum="3">
 
 
-    <ImageView
-        android:id="@+id/studentImage"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
+        <ImageView
+            android:id="@+id/studentImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="@string/naam"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:id="@+id/studentName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:weightSum="6">
+        android:padding="16dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="bottom"
-            android:layout_weight="1"
-            android:text="@string/naam"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/studentName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
-            android:layout_weight="1"
             android:text="@string/kenmerken"
-            android:textSize="24sp" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/trait1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textSize="16sp" />
+            android:gravity="bottom"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/trait2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textSize="16sp" />
+            android:gravity="bottom"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/trait3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textSize="16sp" />
+            android:gravity="bottom"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>

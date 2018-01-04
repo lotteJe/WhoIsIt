@@ -14,4 +14,6 @@
     <string name="action_refresh">Opnieuw spelen</string>
     <string name="add_activity_new_student">Nieuw item</string>
     <string name="add_activity_edit_student">Bewerk item</string>
+    <string name="delete_dialog_msg">Dit item definitief verwijderen?</string>
+    <string name="cancel">Annuleren</string>
 </resources>

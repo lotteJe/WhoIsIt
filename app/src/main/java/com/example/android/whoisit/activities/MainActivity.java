@@ -45,18 +45,18 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
 
         students = studentBox.getAll().isEmpty() ? new ArrayList<Student>() : (ArrayList<Student>) studentBox.getAll();
 
-        //studentBox.removeAll();
-//        initStudentDataset();
-
-//        if (savedInstanceState != null) {
-//            selectedStudent = (Student) studentBox.get(savedInstanceState.getLong("selectedStudent"));
-//        }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, studentsFragment);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             ft.add(R.id.fragment_container, studentdetailFragment);
         }
         ft.commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        studentsFragment.updateList();
     }
 
     @Override
