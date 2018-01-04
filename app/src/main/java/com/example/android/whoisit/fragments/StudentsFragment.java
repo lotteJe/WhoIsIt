@@ -117,7 +117,7 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
             // snackbar met naam en optie voor undo tonen
             Snackbar snackbar = Snackbar
-                    .make(getActivity().findViewById(android.R.id.content), name + " removed from students!", Snackbar.LENGTH_LONG);
+                    .make(getActivity().findViewById(android.R.id.content), name + " is het niet!", Snackbar.LENGTH_LONG);
             snackbar.setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
