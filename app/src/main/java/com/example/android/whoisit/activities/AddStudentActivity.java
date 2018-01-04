@@ -1,11 +1,15 @@
 package com.example.android.whoisit.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,6 +28,7 @@ import com.example.android.whoisit.models.Student;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import io.objectbox.Box;
@@ -90,8 +95,6 @@ public class AddStudentActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_catalog.xml file.
-        // This adds menu items to the app bar.
         getMenuInflater().inflate(R.menu.menu_add_student, menu);
         return true;
     }
@@ -102,8 +105,38 @@ public class AddStudentActivity extends AppCompatActivity {
             case R.id.save_student:
                 saveStudent();
                 return true;
+            case R.id.delete_student:
+                showDeleteConfirmationDialog();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                deleteStudent();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteStudent() {
+        if (studentId != 0) {
+            studentbox.remove(studentId);
+        }
+        finish();
     }
 
     private void saveStudent() {
@@ -153,8 +186,7 @@ public class AddStudentActivity extends AppCompatActivity {
         }
 
         studentbox.put(student);
-        Intent intent = new Intent(AddStudentActivity.this, MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     private void dispatchTakePictureIntent() {
