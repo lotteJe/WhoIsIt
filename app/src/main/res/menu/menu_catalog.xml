@@ -2,10 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".CatalogActivity">
-
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/action_refresh"
+        app:showAsAction="always" />
     <item
         android:id="@+id/voegStudentToe"
-        android:title="@string/voeg_toe_student"
         android:icon="@drawable/ic_add"
+        android:title="@string/voeg_toe_student"
         app:showAsAction="always" />
 </menu>

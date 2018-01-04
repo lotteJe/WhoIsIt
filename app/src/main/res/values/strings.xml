@@ -11,4 +11,7 @@
     <string name="opslaan">Opslaan</string>
     <string name="kenmerken">Kenmerken</string>
     <string name="naam">Naam</string>
+    <string name="action_refresh">Opnieuw spelen</string>
+    <string name="add_activity_new_student">Nieuw item</string>
+    <string name="add_activity_edit_student">Bewerk item</string>
 </resources>

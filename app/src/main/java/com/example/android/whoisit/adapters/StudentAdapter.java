@@ -19,6 +19,7 @@ import com.example.android.whoisit.models.Student;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.objectbox.Box;
@@ -34,10 +35,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     private Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView trait1;
-        public TextView trait2;
-        public TextView trait3;
-        public ImageView studentImage;
+        private TextView trait1;
+        private TextView trait2;
+        private TextView trait3;
+        private ImageView studentImage;
         public RelativeLayout viewBackground, viewForeground;
 
         public MyViewHolder(View view) {
@@ -98,7 +99,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
         FileInputStream fiStream;
         try {
             String path = imageName.replaceAll(".png|.jpg", "");
-            File file            = context.getApplicationContext().getFileStreamPath(path);
+            File file = context.getApplicationContext().getFileStreamPath(path);
             if (file.exists()) Log.d("file", imageName);
             fiStream = context.openFileInput(path);
             bitmap = BitmapFactory.decodeStream(fiStream);
@@ -108,6 +109,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    public void updateList(ArrayList<Student> students) {
+        this.students = students;
+        notifyDataSetChanged();
     }
 }
 
