@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.android.whoisit.models.MyObjectBox;
 import com.example.android.whoisit.models.Student;
+import com.squareup.leakcanary.LeakCanary;
 
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
@@ -19,6 +20,12 @@ public class WhoIsItApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
 
         boxStore = MyObjectBox.builder().androidContext(WhoIsItApplication.this).build();
     }
