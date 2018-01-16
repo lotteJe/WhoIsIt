@@ -4,10 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.os.Parcelable;
-import android.os.WorkSource;
+
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,9 +21,6 @@ import com.example.android.whoisit.interfaces.StudentInterface;
 import com.example.android.whoisit.models.Student;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import io.objectbox.Box;
 
 public class MainActivity extends AppCompatActivity implements StudentInterface {
@@ -174,4 +169,5 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
         }
     }
+
 }
