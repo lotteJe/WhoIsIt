@@ -56,18 +56,21 @@ public class StudentdetailFragment extends Fragment {
     public void updateView() {
         student = ((StudentInterface) getActivity()).getSelectedStudent();
 
-        Bitmap image = loadImageBitmap(this.getContext().getApplicationContext(), student.getImage());
-        studentImage.setImageBitmap(image);
+        if (student != null) {
+            Bitmap image = loadImageBitmap(this.getContext().getApplicationContext(), student.getImage());
+            studentImage.setImageBitmap(image);
 
-        naam.setText(student.getName());
+            naam.setText(student.getName());
 
-        trait1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, 0, 0);
-        trait2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, 0, 0);
-        trait3.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, 0, 0);
+            trait1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, 0, 0);
+            trait2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, 0, 0);
+            trait3.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, 0, 0);
 
-        trait1.setText(student.getTraits().get(0));
-        trait2.setText(student.getTraits().get(1));
-        trait3.setText(student.getTraits().get(2));
+            trait1.setText(student.getTraits().get(0));
+            trait2.setText(student.getTraits().get(1));
+            trait3.setText(student.getTraits().get(2));
+        }
+
     }
 
     public Bitmap loadImageBitmap(Context context, String imageName) {
@@ -75,7 +78,7 @@ public class StudentdetailFragment extends Fragment {
         FileInputStream fiStream;
         try {
             String path = imageName.replaceAll(".png|.jpg", "");
-            File file            = context.getApplicationContext().getFileStreamPath(path);
+            File file = context.getApplicationContext().getFileStreamPath(path);
             if (file.exists()) Log.d("file", imageName);
             fiStream = context.openFileInput(path);
             bitmap = BitmapFactory.decodeStream(fiStream);

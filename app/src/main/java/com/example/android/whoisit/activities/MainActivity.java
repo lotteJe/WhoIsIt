@@ -81,7 +81,9 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
     }
 
     public Student getSelectedStudent() {
-        if (selectedStudent == null)
+        if (students.isEmpty()) {
+            selectedStudent = null;
+        } else if (selectedStudent == null)
             selectedStudent = students.get(0);
         return selectedStudent;
     }

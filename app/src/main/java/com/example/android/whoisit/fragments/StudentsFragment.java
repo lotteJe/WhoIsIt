@@ -14,6 +14,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.android.whoisit.R;
 import com.example.android.whoisit.WhoIsItApplication;
@@ -40,6 +41,7 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
     private StudentAdapter mAdapter;
     private ArrayList<Student> students;
     private Box<Student> studentBox;
+    private ImageView empty;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,8 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
         students = studentBox.getAll().isEmpty() ? new ArrayList<Student>() : (ArrayList<Student>) studentBox.getAll();
         mRecyclerView.addItemDecoration(new DividerItemDecoration(rootView.getContext(), LinearLayoutManager.VERTICAL));
+
+        empty = rootView.findViewById(R.id.empty);
 
         mAdapter = new StudentAdapter(rootView.getContext(), students);
         mRecyclerView.setAdapter(mAdapter);
@@ -134,6 +138,11 @@ public class StudentsFragment extends Fragment implements RecyclerItemTouchHelpe
 
     public void updateList() {
         this.students = studentBox.getAll().isEmpty() ? new ArrayList<Student>() : (ArrayList<Student>) studentBox.getAll();
+        if (students.isEmpty()) {
+            empty.setVisibility(View.VISIBLE);
+            empty.setImageResource(R.drawable.empty_01_01);
+        } else
+            empty.setVisibility(View.GONE);
         mAdapter.updateList(this.students);
     }
 }
