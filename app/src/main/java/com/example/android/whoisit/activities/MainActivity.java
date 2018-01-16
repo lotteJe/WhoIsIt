@@ -1,11 +1,15 @@
 package com.example.android.whoisit.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Parcelable;
 import android.os.WorkSource;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
     private Student selectedStudent;
     private ArrayList<Student> students;
     private Box<Student> studentBox;
+    private final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
             ft.add(R.id.fragment_container, studentdetailFragment);
         }
         ft.commit();
+        checkPermissions();
     }
 
     @Override
@@ -154,5 +161,17 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void checkPermissions() {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+        }
     }
 }
