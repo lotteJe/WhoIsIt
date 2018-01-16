@@ -21,6 +21,8 @@ import com.example.android.whoisit.interfaces.StudentInterface;
 import com.example.android.whoisit.models.Student;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import io.objectbox.Box;
 
 public class MainActivity extends AppCompatActivity implements StudentInterface {
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
 
         WhoIsItApplication app = (WhoIsItApplication) getApplication();
         studentBox = app.getBoxStore().boxFor(Student.class);
+//        initStudentDataset();
 
         students = studentBox.getAll().isEmpty() ? new ArrayList<Student>() : (ArrayList<Student>) studentBox.getAll();
 
@@ -105,31 +108,31 @@ public class MainActivity extends AppCompatActivity implements StudentInterface 
 
     }
 
-//    private void initStudentDataset() {
-//
-//        Student ellen = new Student(0, R.drawable.ellen, "Ellen", Arrays.asList("Bruine krullen", "Leest graag", "Groene tinten"));
-//        Student fien = new Student(0, R.drawable.fien, "Fien", Arrays.asList("2 lange vlechten", "Rosse haarkleuren", "Houdt van dieren"));
-//        Student jana = new Student(0, R.drawable.jana, "Jana", Arrays.asList("Glimlacht altijd", "Behulpzaam", "Schoenen met hakken"));
-//        Student marie = new Student(0, R.drawable.marie, "Marie", Arrays.asList("Lachebekje", "Altijd een praatje maken", "Roze tinten"));
+    private void initStudentDataset() {
+
+        Student ellen = new Student(0, "", "Ellen", Arrays.asList("Bruine krullen", "Leest graag", "Groene tinten"));
+        Student fien = new Student(0, "", "Fien", Arrays.asList("2 lange vlechten", "Rosse haarkleuren", "Houdt van dieren"));
+        Student jana = new Student(0, "", "Jana", Arrays.asList("Glimlacht altijd", "Behulpzaam", "Schoenen met hakken"));
+        Student marie = new Student(0, "", "Marie", Arrays.asList("Lachebekje", "Altijd een praatje maken", "Roze tinten"));
 //        Student nele = new Student(0, R.drawable.nele, "Nele", Arrays.asList("Opvallend", "Houdt van schapen", "Zwemt graag"));
 //        Student luc = new Student(0, R.drawable.luc, "Luc", Arrays.asList("Oranje das", "Stil", "Houdt van woordzoekers"));
 //        Student pol = new Student(0, R.drawable.pol, "Pol", Arrays.asList("Bril", "Houdt van muurklimmen", "Kleurrijke schoenzolen"));
 //        Student robbe = new Student(0, R.drawable.robbe, "Robbe", Arrays.asList("Hoed", "Kleurrijke veters", "Houdt van schilderen"));
 //        Student stijn = new Student(0, R.drawable.stijn, "Stijn", Arrays.asList("Rosse haren", "Verlegen", "Houdt van karten"));
 //        Student tijl = new Student(0, R.drawable.tijl, "Tijl", Arrays.asList("Luidruchtig", "Kleurrijke sokken", "Maakt graag sudoku's"));
-//
-//        studentBox.put(ellen);
-//        studentBox.put(luc);
-//        studentBox.put(fien);
-//        studentBox.put(pol);
-//        studentBox.put(jana);
-//        studentBox.put(robbe);
-//        studentBox.put(marie);
+
+        studentBox.put(ellen);
+       // studentBox.put(luc);
+        studentBox.put(fien);
+       // studentBox.put(pol);
+        studentBox.put(jana);
+        //studentBox.put(robbe);
+        studentBox.put(marie);
 //        studentBox.put(stijn);
 //        studentBox.put(nele);
 //        studentBox.put(tijl);
-//
-//    }
+
+    }
 
     //bij landscape detailfragment updaten bij wijzigen van student, of deleten
     public void updateDetailFragment() {
