@@ -253,7 +253,4 @@ public class AddStudentActivity extends AppCompatActivity {
         }
     }
 
-    public void savePersonalPicture(Bitmap bitmap) {
-        new SaveFile().execute("profielfoto" + bitmap);
-    }
 }
